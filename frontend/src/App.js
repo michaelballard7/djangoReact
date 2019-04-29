@@ -1,52 +1,81 @@
 import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Container, Row, Col } from 'reactstrap'
+import {Button, Container, Row, Col} from 'reactstrap'
+import ListNotes from './components/ListNotes'
 
+var notes_temp = [
+    {
+        'id': 1,
+        'title': 'TWLO is trending up',
+        'content': "TWLO gains 15% in one day lol"
+    }, {
+        'id': 2,
+        'title': 'TWLO is trending flat',
+        'content': "TWLO gains 1% in one day"
+    }, {
+        'id': 3,
+        'title': 'TWLO is trending up',
+        'content': "TWLO gains 5% in one day"
+    }
+];
 
-class App extends Component{
+class App extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
-            notes: [],
+            notes: notes_temp,
             current_note_id: 0,
             is_creating: true
         }
+
+        this.handleItemClick = this.handleItemClick.bind(this);
+        this.handleAddNote = this.handleAddNote.bind(this);
     }
 
+    handleItemClick(id){
+        this.setState((prevState)=>{
+            return {is_creating:false, current_note_id:id}
+        })
+    }
 
-  render() {
+    handleAddNote(){
+        this.setState((prevState)=>{
+            return {is_creating: true}
+        })
+    }
 
-    return(
-        <React.Fragment>
+    render() {
+        return (<React.Fragment>
             <Container>
                 <Row>
                     <Col xs="10">
                         <h2>Realtime Trading Notes</h2>
                     </Col>
                     <Col xs="2">
-                        <Button color="success">Create Note</Button>
+                        <Button color="success" onClick={this.handleAddNote}>Create Note</Button>
                     </Col>
                 </Row>
                 <Row>
                     <Col xs="4">
-                        <h5>List our notes here</h5>
+                        <ListNotes notes={this.state.notes} handleItemClick={(id) => this.handleItemClick(id)}/>
                     </Col>
                     <Col xs="8">
                         <p> Edit content here</p>
+                        {
+                            this.state.is_creating ?
+                            "Creating now..." :
+                            `Editing note with id: ${this.state.current_note_id}`
+                        }
                     </Col>
-
-
                 </Row>
 
             </Container>
 
-        </React.Fragment>
+        </React.Fragment>)
 
-    )
-
-   };
+    };
 }
 
 export default App;
