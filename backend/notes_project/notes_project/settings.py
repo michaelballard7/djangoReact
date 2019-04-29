@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'notes',
     'corsheaders',
     'rest_framework',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -77,7 +78,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'notes_project.wsgi.application'
+WSGI_APPLICATION = 'notes_project.wsgi.application' # handles http request
 
 
 # Database
@@ -128,3 +129,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+ASGI_APPLICATION = "notes_project.routing.application" # handles web socket request
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "HOSTS": [{'127.0.0.1', 6379}],
+        }
+    }
+}
