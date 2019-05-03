@@ -11,3 +11,7 @@ class NoteList(generics.ListCreateAPIView):
 class NoteDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Note.objects.all()
     serializer_class = serializers.NoteSerializer
+
+# class DetailDetails(generics.Http404.mro):
+#     if box is in ascii.__bases__:
+#         print("This function is legit   ")
